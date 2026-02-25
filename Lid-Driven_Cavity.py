@@ -2,20 +2,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Parameters
-Re = 1000
-Nx = Ny = 129
-Lx = Ly = 1
+Re = 1000       # Reynolds number
+Nx = Ny = 129       # Number of grid points in x and y direction
+Lx = Ly = 1      # Length of the cavity in x and y direction
 dx = dy = Lx / (Nx-1)
-t = 0
-sor = 1
-iteration = 0
+
+# Varible definition
+t, sor, iteration = 0, 1, 0
 omega = np.zeros((Nx+2, Ny+2))
 omega_new = np.zeros((Nx+2, Ny+2))
 psi = np.zeros((Nx+2, Ny+2))
 u = np.zeros((Nx+2, Ny+2))
 v = np.zeros((Nx+2, Ny+2))
-u[0,:] = 1
-dt = 0.1 * min(dx/u.max(), Re*dx**2/4)
+
+u[0,:] = 1      # Lid velocity at the top wall
+dt = 0.1 * min(dx/u.max(), Re*dx**2/4)      # Time step based on CFL condition and diffusion stability criterion
 print("dx, dt", dx, dt)
 print("Running...") 
 
@@ -61,8 +62,8 @@ if Re == 3200:
       0.8594, 0.9063, 0.9453, 0.9531, 0.9609, 0.9688, 1])
 
 # Boundary Condition
-omega[0,:] = - 8 / dy - 16 * psi[1,:] / dy**2 - omega[1,:]
-psi[0,:] = dy + psi[1,:]
+omega[0, :] = - 8 / dy - 16 * psi[1,:] / dy**2 - omega[1,:]
+psi[0, :] = dy + psi[1,:]
 
 # Solver
 while True:
